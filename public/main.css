@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed:100,200,300,400');
 
-body{
+body, html{
     background-color: #222;
     background-image: url("img/space-background.png");
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
 }
 
 h1{
@@ -11,12 +14,17 @@ h1{
     margin: 0 auto;
     background-color: rgba(255, 255, 255, .7);
     display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    border-radius: 4px;
+    width: 100%;
+    text-align: center;
     border-bottom: 5px solid rgba(150, 150, 150, 1);
     font-weight: 200;
     font-family: 'IBM Plex Sans Condensed', sans-serif;
+}
+
+pre{
+    color: white;
+    white-space: pre;
+    background-color: #222;
+    max-height: 200px;
+    overflow-y: auto;
 }

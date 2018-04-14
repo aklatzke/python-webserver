@@ -1,6 +1,6 @@
-import json
 import os
 
+from routes.routeHandler import RouteHandler
 from http.server import BaseHTTPRequestHandler
 from response.templateHandler import TemplateHandler
 from response.staticHandler import StaticHandler
@@ -17,12 +17,13 @@ class Server(BaseHTTPRequestHandler):
         request_extension = split_path[1]
 
         if request_extension is "" or request_extension is ".html":
-            routes_file = open('routes/main.json', 'r').read()
-            routes = json.loads(routes_file)
-            if self.path in routes:
+            route_handler = RouteHandler()
+
+            if route_handler.find(self.path): 
                 handler = TemplateHandler()
-                handler.find(routes[self.path])
-            else:
+                route_result = route_handler.get_result()
+                handler.find(route_result["template"], route_result["data"])
+            else: 
                 handler = BadRequestHandler()
 
         elif request_extension is ".py":
@@ -38,7 +39,7 @@ class Server(BaseHTTPRequestHandler):
             'handler' : handler
         })
 
-    def handle_http(self, status_code, type, handler):
+    def handle_http(self, status_code, handler):
         self.send_response(status_code)
 
         if status_code is 200:
@@ -55,7 +56,7 @@ class Server(BaseHTTPRequestHandler):
         return bytes(content, 'UTF-8')
         
     def respond(self, opts):
-        response = self.handle_http(opts['status'], opts['type'], opts['handler'])
+        response = self.handle_http(opts['status'], opts['handler'])
         self.wfile.write(response)
     
 
