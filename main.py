@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-
-import os
-import sys
 import time
 from http.server import HTTPServer
 from server import Server
@@ -10,8 +7,7 @@ HOST_NAME = 'localhost'
 PORT_NUMBER = 8000
 
 if __name__ == '__main__':
-    server_class = HTTPServer
-    httpd = server_class((HOST_NAME, PORT_NUMBER), Server)
+    httpd = HTTPServer((HOST_NAME, PORT_NUMBER), Server)
     print(time.asctime(), 'Server Starts - %s:%s' % (HOST_NAME, PORT_NUMBER))
     try:
         httpd.serve_forever()
