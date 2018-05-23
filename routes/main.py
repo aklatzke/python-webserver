@@ -1,33 +1,25 @@
+import json
 from data.stores.index import search, title
+from routes.router import Router
 
-routes = {
-    "/" : {
-        "template": "index",
+router = Router()
 
-        "children" : {
+router.add("/search/{param}", {
+    "store": search,
+    "template" : "search"
+})
 
-            "search": {
-                "template": "index",
-                "store" : search,
-                "children": {
-                    "{param}": {
-                        "template": "index",
-                        "store" : search
-                    }
-                }
-            },
+router.add("/title/{param}", {
+    "store" : title,
+    "template" : "title"
+})
 
-            "title" : {
-                "template": "index",
-                "store": title,
-                "children" : {
-                    "{param}" : {
-                        "template" : "index",
-                        "store" : title
-                    }
-                }
-            }
-            
-        }        
-    },
-}
+router.add("/api/search/{param}", {
+    "store" : search,
+    "json": True
+})
+
+router.add("/api/title/{param}", {
+    "store" : title,
+    "json" : True
+})

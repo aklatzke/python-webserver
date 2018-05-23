@@ -1,7 +1,9 @@
 import os
 
+from routes.main import router
 from routes.routeHandler import RouteHandler
 from http.server import BaseHTTPRequestHandler
+from response.jsonHandler import JsonHandler
 from response.templateHandler import TemplateHandler
 from response.staticHandler import StaticHandler
 from response.badRequestHandler import BadRequestHandler
@@ -17,12 +19,18 @@ class Server(BaseHTTPRequestHandler):
         request_extension = split_path[1]
 
         if request_extension is "" or request_extension is ".html":
-            route_handler = RouteHandler()
+            route_handler = RouteHandler(router.getRoutes())
 
             if route_handler.find(self.path): 
-                handler = TemplateHandler()
                 route_result = route_handler.get_result()
-                handler.find(route_result["template"], route_result["data"])
+                if "template" in route_result:
+                    handler = TemplateHandler()
+                    handler.find(route_result["template"], route_result["data"])
+                elif "json" in route_result:
+                    handler = JsonHandler()
+                    handler.format(route_result["data"])
+                else: 
+                    handler = BadRequestHandler()
             else: 
                 handler = BadRequestHandler()
 

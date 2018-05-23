@@ -1,5 +1,5 @@
 from response.requestHandler import RequestHandler
-from utilities.templateFormatter import BlankFormatter
+from utilities.templateFormatter import TemplateFormatter
 
 class TemplateHandler(RequestHandler):
     def __init__(self):
@@ -19,12 +19,12 @@ class TemplateHandler(RequestHandler):
 
     def getContents(self):
         contents = self.contents.read()
-        fmt = BlankFormatter()
+        fmt = TemplateFormatter()
         contents = fmt.format(contents, **self.data)
         return contents
 
     def getType(self):
         return 'template'
         
-
+ 
 

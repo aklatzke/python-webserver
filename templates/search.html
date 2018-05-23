@@ -1,0 +1,16 @@
+{> header}
+    <div class='container'>
+        <h1>Search For: {param}</h1>
+        <div class='pure-g'>
+            { each response=>data/responseContent }
+        </div>
+
+        <ul class='page-list'>
+            { each pages= 
+                <li class="pure-button pure-button-primary">
+                    <a href="?page=(value)">(value)</a>
+                </li>
+            }
+        </ul>
+    </div>
+{> footer}
