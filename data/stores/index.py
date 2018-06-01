@@ -1,22 +1,11 @@
-import http.client
 import json
 
-def omdbRequest(reqParam, params, page=1):
-    request = http.client.HTTPConnection("omdbapi.com", 80)
-    apikey = '6b112a2'
-    requestUrl = "/?{}={}&page={}&apikey={}".format(reqParam, params['param'], page, apikey)
-    print(requestUrl)
-    request.request("GET", requestUrl)
-
-    response = request.getresponse()
-    responseContent = response.read()
-
-    return responseContent
-
-def search(params):
+def search(params, omdbRequest):
     currentPage = 1
+
     if "query" in params:
-        currentPage = params["query"]["page"]
+        if "page" in params["query"]:
+            currentPage = params["query"]["page"]
 
     responseContent = omdbRequest("s", params, currentPage)
 
@@ -28,7 +17,7 @@ def search(params):
         "currentPage" : currentPage
     }
 
-def title(params):
+def title(params, omdbRequest):
     if "param" not in params:
         return {
             "json": "",

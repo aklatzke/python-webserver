@@ -53,7 +53,7 @@ class RouteHandler():
                 this_route["params"] = {**params, **new_params}
 
                 if "store" in this_route:
-                    this_route["data"] = this_route["store"]({ **params, **new_params, "query" : query })
+                    this_route["data"] = this_route["store"]({ **params, **new_params, "query" : query }, *this_route['actions'])
                 else:
                     this_route["data"] = {}
  
@@ -64,8 +64,7 @@ class RouteHandler():
                 this_route = routes[part]
                 
                 if "store" in this_route:
-                    print(this_route)
-                    this_route["data"] = this_route["store"]({**params, **new_params, "query": query})
+                    this_route["data"] = this_route["store"]({**params, **new_params, "query": query}, *this_route['actions'])
                 else:
                     this_route["data"] = {}
                 return this_route
